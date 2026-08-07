@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pondok Pesantren Darunnajah Timampu | Beranda</title>
+    <!-- Tailwind CSS v4 via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body class="bg-transparent text-slate-900 antialiased" data-page="index">
+    <!-- NAVBAR -->
+    <header data-navbar></header>
+
+    <!-- SECTION 1-->
+    <section class="relative h-screen overflow-hidden">
+      <!-- SLIDES -->
+      <div id="hero-slider" class="absolute inset-0">
+        <div
+          class="hero-slide absolute inset-0 opacity-100 transition-opacity duration-1000"
+        >
+          <img src="aset/hero/mas.png" class="w-full h-full object-cover" />
+        </div>
+
+        <div
+          class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000"
+        >
+          <img src="aset/hero/smp-it.png" class="w-full h-full object-cover" />
+        </div>
+
+        <div
+          class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000"
+        >
+          <img src="aset/hero/ra.png" class="w-full h-full object-cover" />
+        </div>
+      </div>
+
+      <!-- OVERLAY -->
+      <div class="absolute inset-0 bg-black/65"></div>
+
+      <!-- CONTENT -->
+      <div class="relative z-10 h-full flex items-center justify-center">
+        <div
+          class="hero-content text-center text-white max-w-3xl px-4 sm:px-6 mt-32 md:mt-40 mx-auto"
+        >
+          <h3
+            class="text-base sm:text-lg font-semibold uppercase tracking-widest text-white/90"
+          >
+            Selamat Datang di
+          </h3>
+          <h1
+            class="font-black uppercase leading-tight mt-2 text-4xl sm:text-5xl lg:text-[4.5rem]"
+            style="font-size: clamp(1.75rem, 5vw, 3.5rem)"
+          >
+            <span class="text-white">PONDOK PESANTREN</span>
+            <span class="text-yellow-400">DARUNNAJAH</span>
+            <span class="text-white">TIMAMPU</span>
+          </h1>
+
+          <div
+            class="mx-auto my-6 sm:my-8"
+            style="
+              width: clamp(6rem, 80%, 24rem);
+              height: 2.5px;
+              background-color: rgba(255, 255, 255, 0.8);
+              border-radius: 9999px;
+            "
+          ></div>
+
+          <p
+            class="max-w-4xl mx-auto leading-relaxed text-white/90 px-2 sm:px-4"
+            style="font-size: clamp(0.85rem, 2.5vw, 1.25rem)"
+          >
+            Menghadirkan pendidikan yang mengintegrasikan keunggulan akademik,
+            pembentukan karakter Islami, dan pengembangan potensi peserta didik
+            guna melahirkan generasi yang berilmu, berakhlak mulia, dan berdaya
+            saing.
+          </p>
+
+          <div class="mt-10 flex justify-center gap-4">
+            <a
+              href="profil.html"
+              class="border border-white px-6 py-3 rounded-full text-sm sm:text-base font-semibold"
+              >Tentang Kami</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision Mission Section -->
+    <section
+      class="bg-linear-to-r from-[#0b3b01] via-[#145214] to-[#0b3b01] py-16 md:py-20"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 relative">
+          <!-- Garis Tengah -->
+          <div
+            class="hidden md:block absolute left-1/2 top-0 -translate-x-1/2 w-px h-full bg-white/40"
+          ></div>
+
+          <!-- Visi -->
+          <div class="text-center text-white">
+            <h2
+              class="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase mb-6"
+            >
+              Visi Kami
+            </h2>
+
+            <p class="text-base leading-relaxed max-w-md mx-auto text-white/90">
+              Menjadi Madrasah Aliyah yang unggul dalam prestasi, berdaya saing
+              dalam karakter, serta bersinergi membangun generasi Islami yang
+              berilmu dan berakhlak mulia.
+            </p>
+          </div>
+
+          <!-- Misi -->
+          <div class="text-center text-white">
+            <h2
+              class="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase mb-6"
+            >
+              Misi Kami
+            </h2>
+
+            <p class="text-base leading-relaxed max-w-md mx-auto text-white/90">
+              Menyelenggarakan pendidikan Islam berbasis Al-Qur'an dan Sunnah
+              untuk membentuk generasi yang beriman, berilmu, berakhlak mulia,
+              dan berprestasi.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lembaga Formal -->
+    <section class="py-24 bg-transparent" id="unit">
+      <div class="max-w-7xl mx-auto px-6">
+        <!-- Heading -->
+        <div class="text-center mb-16">
+          <p class="text-gray-900 font-semibold uppercase tracking-widest">
+            Unit Pendidikan
+          </p>
+
+          <h1
+            class="text-4xl sm:text-5xl lg:text-6xl font-black uppercase mb-6"
+          >
+            Lembaga Formal Darunnajah
+          </h1>
+
+          <p class="max-w-2xl mx-auto mt-6 text-gray-600">
+            Menyelenggarakan pendidikan terpadu mulai dari pendidikan anak usia
+            dini hingga pendidikan menengah yang berlandaskan nilai-nilai Islam.
+          </p>
+        </div>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <!-- MAS -->
+          <div
+            class="group relative overflow-hidden rounded-3xl h-auto md:h-[500px] text-center"
+          >
+            <img
+              src="aset/card/card-mas.png"
+              class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"
+            />
+
+            <div class="absolute inset-0 bg-black/50"></div>
+
+            <div class="absolute bottom-0 p-8 text-white">
+              <h3 class="text-3xl font-bold mb-3">MAS Darunnajah</h3>
+
+              <p class="mb-6 text-white/90">
+                Madrasah Aliyah berbasis pesantren yang membina akademik,
+                karakter, dan keislaman peserta didik.
+              </p>
+
+              <a
+                href="spmb-mas.html"
+                class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/80 text-white font-medium tracking-wide hover:bg-white hover:text-[#0b3b01] hover:border-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              >
+                Daftar Sekarang
+              </a>
+            </div>
+          </div>
+
+          <!-- SMP IT -->
+          <div
+            class="group relative overflow-hidden rounded-3xl h-[500px] text-center"
+          >
+            <img
+              src="aset/card/card-smp-it.png"
+              class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"
+            />
+
+            <div class="absolute inset-0 bg-black/50"></div>
+
+            <div class="absolute bottom-0 p-8 text-white">
+              <h3 class="text-3xl font-bold mb-3">SMP IT Darunnajah</h3>
+
+              <p class="mb-6 text-white/90">
+                Pendidikan Islam terpadu yang memadukan ilmu pengetahuan,
+                akhlak, dan pembinaan karakter.
+              </p>
+
+              <a
+                href="spmb-smpit.html"
+                class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/80 text-white font-medium tracking-wide hover:bg-white hover:text-[#0b3b01] hover:border-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              >
+                Daftar Sekarang
+              </a>
+            </div>
+          </div>
+
+          <!-- RA -->
+          <div
+            class="group relative overflow-hidden rounded-3xl h-[500px] text-center"
+          >
+            <img
+              src="aset/card/card-ra.png"
+              class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"
+            />
+
+            <div class="absolute inset-0 bg-black/50"></div>
+
+            <div class="absolute bottom-0 p-8 text-white">
+              <h3 class="text-3xl font-bold mb-3">RA Darunnajah</h3>
+
+              <p class="mb-6 text-white/90">
+                Pendidikan anak usia dini yang menanamkan nilai agama,
+                kemandirian, dan kreativitas sejak dini.
+              </p>
+
+              <a
+                href="spmb-ra.html"
+                class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/80 text-white font-medium tracking-wide hover:bg-white hover:text-[#0b3b01] hover:border-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              >
+                Daftar Sekarang
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Program Unggulan -->
+    <section class="py-8 bg-transparent" id="programs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10 sm:mb-12">
+          <h1
+            class="text-3xl sm:text-4xl lg:text-6xl font-black uppercase mb-6"
+          >
+            PROGRAM UNGGULAN
+          </h1>
+
+          <p class="max-w-3xl mx-auto mt-4 text-gray-600">
+            Berbagai program unggulan yang dirancang untuk membentuk generasi
+            Islami, berkarakter, dan siap menghadapi tantangan masa depan.
+          </p>
+        </div>
+
+        <!-- Tabs -->
+        <div
+          class="program-tabs flex flex-wrap justify-center gap-4 mb-16 px-2 sm:px-0"
+        >
+          <button class="program-tab active-tab" data-target="ponpes">
+            Pondok Pesantren
+          </button>
+          <button class="program-tab" data-target="mas">MAS Darunnajah</button>
+          <button class="program-tab" data-target="smpit">
+            SMP-IT Darunnajah
+          </button>
+          <button class="program-tab" data-target="ra">RA Darunnajah</button>
+        </div>
+
+        <!-- PONDOK PESANTREN -->
+        <div id="ponpes" class="program-content">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <img
+                src="aset/gallery/keg1.jpg"
+                class="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-6 sm:p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Kelas Tahfidz</h3>
+                <p class="text-green-100">
+                  Program pembinaan hafalan Al-Qur'an dengan target yang terukur
+                  dan pendampingan intensif.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Latihan Dakwah</h3>
+                <p class="text-green-100">
+                  Melatih kemampuan public speaking, kepemimpinan, dan
+                  penyampaian pesan Islam.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg2.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+
+            <div>
+              <img
+                src="aset/gallery/keg3.jpg"
+                class="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-6 sm:p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Pramuka</h3>
+                <p class="text-green-100">
+                  Membentuk karakter disiplin, tanggung jawab, kerja sama, dan
+                  kemandirian santri.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Mondok Sepekan</h3>
+                <p class="text-green-100">
+                  Memberikan pengalaman hidup pesantren secara langsung selama
+                  satu pekan.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg4.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- MAS -->
+        <div id="mas" class="program-content hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <img
+                src="aset/gallery/keg2.jpg"
+                class="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-6 sm:p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Kelas Tahfidz</h3>
+                <p class="text-green-100">
+                  Program pembinaan hafalan Al-Qur'an dengan target yang terukur
+                  dan pendampingan intensif.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Latihan Dakwah</h3>
+                <p class="text-green-100">
+                  Melatih kemampuan public speaking, kepemimpinan, dan
+                  penyampaian pesan Islam.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg3.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+
+            <div>
+              <img
+                src="aset/gallery/keg4.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Pramuka</h3>
+                <p class="text-green-100">
+                  Membentuk karakter disiplin, tanggung jawab, kerja sama, dan
+                  kemandirian santri.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Mondok Sepekan</h3>
+                <p class="text-green-100">
+                  Memberikan pengalaman hidup pesantren secara langsung selama
+                  satu pekan.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg1.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- SMP IT -->
+        <div id="smpit" class="program-content hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <img
+                src="aset/gallery/keg3.jpg"
+                class="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-6 sm:p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Kelas Tahfidz</h3>
+                <p class="text-green-100">
+                  Program pembinaan hafalan Al-Qur'an dengan target yang terukur
+                  dan pendampingan intensif.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Latihan Dakwah</h3>
+                <p class="text-green-100">
+                  Melatih kemampuan public speaking, kepemimpinan, dan
+                  penyampaian pesan Islam.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg4.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+
+            <div>
+              <img
+                src="aset/gallery/keg1.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Pramuka</h3>
+                <p class="text-green-100">
+                  Membentuk karakter disiplin, tanggung jawab, kerja sama, dan
+                  kemandirian santri.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Mondok Sepekan</h3>
+                <p class="text-green-100">
+                  Memberikan pengalaman hidup pesantren secara langsung selama
+                  satu pekan.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg2.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- RA -->
+        <div id="ra" class="program-content hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <img
+                src="aset/gallery/keg4.jpg"
+                class="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-6 sm:p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Kelas Tahfidz</h3>
+                <p class="text-green-100">
+                  Program pembinaan hafalan Al-Qur'an dengan target yang terukur
+                  dan pendampingan intensif.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Latihan Dakwah</h3>
+                <p class="text-green-100">
+                  Melatih kemampuan public speaking, kepemimpinan, dan
+                  penyampaian pesan Islam.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg1.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+
+            <div>
+              <img
+                src="aset/gallery/keg2.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Pramuka</h3>
+                <p class="text-green-100">
+                  Membentuk karakter disiplin, tanggung jawab, kerja sama, dan
+                  kemandirian santri.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div class="bg-[#0b3b01] text-white p-8 h-[260px]">
+                <h3 class="text-3xl font-bold mb-4">Mondok Sepekan</h3>
+                <p class="text-green-100">
+                  Memberikan pengalaman hidup pesantren secara langsung selama
+                  satu pekan.
+                </p>
+              </div>
+              <img
+                src="aset/gallery/keg3.jpg"
+                class="w-full h-[380px] object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPMB -->
+    <section
+      id="spmb"
+      class="relative min-h-[420px] md:h-[450px] overflow-hidden"
+    >
+      <!-- Background Image -->
+      <div
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url(&quot;aset/background/bgspmb.png&quot;)"
+      ></div>
+
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-[#0b3b01]/50"></div>
+
+      <!-- Content -->
+      <div
+        class="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4 sm:px-6 pt-16 md:pt-0"
+      >
+        <h1
+          class="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-wide leading-tight"
+        >
+          SPMB TAHUN AJARAN <span class="text-yellow-300">2026/2027</span>
+        </h1>
+
+        <p
+          class="mt-4 text-sm md:text-lg text-white/90 max-w-3xl leading-relaxed"
+        >
+          Menerima calon santri baru dan santri pindahan untuk jenjang RA,
+          SMP-IT, dan MAS Darunnajah Timampu.
+        </p>
+
+        <!-- Arrow -->
+        <a
+          href="faq.html"
+          class="mt-8 text-white hover:scale-80 transition duration-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-10 h-10"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="3"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </a>
+
+        <a
+          href="faq.html"
+          class="mt-8 text-2xl md:text-xl font-semibold tracking-wider border border-white rounded-full px-6 py-3 inline-block text-white hover:bg-white hover:text-[#0b3b01] hover:scale-110 transition duration-300"
+        >
+          Klik Di Sini
+        </a>
+      </div>
+    </section>
+
+    <!-- KONTAK & PETA LOKASI -->
+    <section id="lokasi" class="py-12 md:py-16 bg-transparent">
+      <div
+        class="container mx-auto px-4 grid gap-8 md:grid-cols-2 items-center"
+      >
+        <div>
+          <p class="text-lg font-regular text-slate-900">Hubungi Kami</p>
+          <h3 class="mt-2 text-6xl font-black uppercase">
+            Pondok Pesantren Darunnajah Timampu
+          </h3>
+          <p class="mt-0 italic text-lg">
+            Jl. Kh. M. As'ad No.2, Kecamatan Towuti, Kabupaten Luwu Timur,
+            Sulawesi Selatan
+          </p>
+          <h3 class="mt-2 text-sm">
+            Wa:
+            <a
+              href="https://wa.me/6282194355554"
+              class="text-[#0b3b01] font-bold"
+              >+62 821-9435-5554</a
+            >
+          </h3>
+          <h3 class="mt-2 text-sm">
+            Email:
+            <a
+              href="mailto:darunnajahm@gmail.com"
+              class="text-[#0b3b01] font-bold"
+              >darunnajahm@gmail.com</a
+            >
+          </h3>
+        </div>
+
+        <div>
+          <div
+            class="w-full h-64 md:h-80 rounded-[0.75rem] overflow-hidden shadow-lg"
+          >
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1967.35352382399!2d121.42123082076121!3d-2.6539618772179363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d90892cae836af5%3A0x3daf5f8b3decf1f0!2sMA%20Swasta%20Darunnajah%20Timampu!5e0!3m2!1sid!2sid!4v1782307508976!5m2!1sid!2sid"
+              class="w-full h-full"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      id="kontak"
+      class="bg-linear-to-r from-[#0b3b01] via-[#145214] to-[#0b3b01] text-emerald-100/80 pt-16"
+    >
+      <div
+        class="container mx-auto px-4 grid grid-cols-1 gap-10 lg:grid-cols-3 pb-12"
+      >
+        <div class="space-y-5 text-center lg:text-left">
+          <h4 class="text-white font-bold text-lg uppercase tracking-widest">
+            Link / Peta Situs
+          </h4>
+          <ul
+            class="space-y-3 text-sm text-emerald-100/80 flex flex-col items-center lg:items-start"
+          >
+            <li>
+              <a
+                href="profil.html"
+                class="flex items-center gap-3 hover:text-white"
+                >Beranda</a
+              >
+            </li>
+            <li>
+              <a
+                href="faq.html"
+                class="flex items-center gap-3 hover:text-white transition-colors"
+                >Unit Pendidikan</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center gap-3 hover:text-white transition-colors"
+                >Prestasi</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center gap-3 hover:text-white transition-colors"
+                >Kontak</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-5 text-center lg:text-left lg:pl-10">
+          <h4 class="text-white font-bold text-lg uppercase tracking-widest">
+            Ikuti Kami
+          </h4>
+          <div class="flex justify-center lg:justify-start gap-4">
+            <!-- Facebook -->
+            <a
+              href="https://facebook.com/"
+              target="_blank"
+              class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 text-white hover:bg-white hover:text-[#0b3b01] transition-all duration-300 hover:scale-110"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                class="w-5 h-5"
+              >
+                <path
+                  d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12z"
+                />
+              </svg>
+            </a>
+
+            <!-- Instagram -->
+            <a
+              href="https://instagram.com/"
+              target="_blank"
+              class="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 text-white hover:bg-white hover:text-[#0b3b01] transition-all duration-300 hover:scale-110"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                class="w-5 h-5"
+              >
+                <path
+                  d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 1.8h8.5a3.95 3.95 0 0 1 3.95 3.95v8.5a3.95 3.95 0 0 1-3.95 3.95h-8.5a3.95 3.95 0 0 1-3.95-3.95v-8.5A3.95 3.95 0 0 1 7.75 3.8zm8.9 1.35a1.15 1.15 0 1 0 0 2.3 1.15 1.15 0 0 0 0-2.3zM12 6.85A5.15 5.15 0 1 0 17.15 12 5.16 5.16 0 0 0 12 6.85zm0 1.8A3.35 3.35 0 1 1 8.65 12 3.35 3.35 0 0 1 12 8.65z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- logo -->
+        <div class="space-y-5 text-center lg:text-left">
+          <h4 class="text-white font-bold text-lg uppercase tracking-widest">
+            Sponsor By
+          </h4>
+
+          <div class="flex justify-center lg:justify-start">
+            <div class="flex items-center gap-8">
+              <img
+                src="aset/logo/logokemenag.svg"
+                alt="Kementerian Agama"
+                class="h-16 object-contain hover:scale-110 transition duration-300"
+              />
+
+              <img
+                src="aset/logo/logoyayasan.svg"
+                alt="Pondok Pesantren Darunnajah"
+                class="h-16 object-contain hover:scale-110 transition duration-300"
+              />
+
+              <img
+                src="aset/logo/logotagline.svg"
+                alt="Tagline Madrasah"
+                class="h-16 object-contain hover:scale-110 transition duration-300"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-[#ebb92b]">
+        <div
+          class="container mx-auto px-2 py-2 text-center text-sm font-semibold text-[#0b3b01]"
+        >
+          <p>
+            &copy; 2026 Pondok Pesantren Darunnajah Timampu. All Rights
+            Reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+
+    <button
+      id="backToTop"
+      class="fixed bottom-6 right-6 z-50 hidden h-12 w-12 rounded bg-white shadow-lg transition-all duration-300 hover:bg-[#0b3b01] group hover:shadow-[#0b3b01]/50 hover:scale-125"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6 mx-auto text-[#0b3b01] transition-colors duration-300 group-hover:text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="3"
+          d="M5 15l7-7 7 7"
+        />
+      </svg>
+    </button>
+  </body>
+</html>

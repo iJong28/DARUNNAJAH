@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Masuk | Pondok Pesantren Darunnajah Timampu</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="login-page antialiased">
+    <main
+      class="login-shell flex min-h-screen items-center justify-center px-4 py-10 sm:px-6"
+    >
+      <div
+        class="login-layout grid w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl lg:grid-cols-[0.9fr_1.1fr]"
+      >
+        <section
+          class="login-intro flex flex-col justify-between px-7 py-8 text-white sm:px-10 sm:py-10 lg:px-12"
+        >
+          <a
+            href="index.html"
+            class="inline-flex w-fit items-center gap-3"
+            aria-label="Kembali ke Beranda"
+          >
+            <img
+              src="aset/logo/logonavbar1.png"
+              alt="Logo Darunnajah"
+              class="login-logo h-14 w-auto"
+            />
+            <span class="text-sm font-bold leading-tight tracking-wide"
+              >DARUNNAJAH<br />TIMAMPU</span
+            >
+          </a>
+          <div class="mt-14 max-w-md lg:mt-0">
+            <p
+              class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-yellow-300"
+            >
+              Portal Darunnajah
+            </p>
+            <h1 class="text-3xl font-extrabold leading-tight sm:text-4xl">
+              Selamat datang kembali.
+            </h1>
+            <p class="mt-4 text-sm leading-7 text-white/80 sm:text-base">
+              Masuk untuk melanjutkan ke layanan internal Pondok Pesantren
+              Darunnajah Timampu.
+            </p>
+          </div>
+          <p class="mt-14 text-xs text-white/60 lg:mt-0">
+            Berilmu, berakhlak mulia, dan berdaya saing.
+          </p>
+        </section>
+
+        <section class="login-panel px-7 py-8 sm:px-12 sm:py-12">
+          <div class="mx-auto max-w-md">
+            <div class="mb-8">
+              <p
+                class="text-sm font-semibold uppercase tracking-[0.18em] text-[#00895f]"
+              >
+                Akses akun
+              </p>
+              <h2
+                class="mt-2 text-2xl font-extrabold text-[#0b3b01] sm:text-3xl"
+              >
+                Masuk ke portal
+              </h2>
+              <p class="mt-2 text-sm leading-6 text-slate-500">
+                Gunakan email dan kata sandi yang terdaftar.
+              </p>
+            </div>
+
+            <div
+              id="login-error"
+              class="login-error mb-5 hidden"
+              role="alert"
+              aria-live="polite"
+            ></div>
+
+            <form id="login-form" class="space-y-5">
+              <div>
+                <label
+                  for="email"
+                  class="mb-2 block text-sm font-semibold text-slate-700"
+                  >Email</label
+                >
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  class="login-input w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition"
+                  placeholder="nama@contoh.com"
+                />
+              </div>
+
+              <div>
+                <label
+                  for="password"
+                  class="mb-2 block text-sm font-semibold text-slate-700"
+                  >Kata sandi</label
+                >
+                <div class="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                    class="login-input w-full rounded-xl border border-slate-200 px-4 py-3 pr-28 text-sm text-slate-900 outline-none transition"
+                    placeholder="Masukkan kata sandi"
+                  />
+                  <button
+                    id="password-toggle"
+                    type="button"
+                    class="absolute inset-y-0 right-3 my-auto h-9 px-2 text-xs font-bold text-[#00895f] transition hover:text-[#0b3b01]"
+                    aria-label="Tampilkan kata sandi"
+                  >
+                    Tampilkan
+                  </button>
+                </div>
+              </div>
+
+              <button
+                id="login-submit"
+                type="submit"
+                class="login-submit w-full rounded-xl px-4 py-3 text-sm font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Masuk
+              </button>
+            </form>
+
+            <a
+              href="index.html"
+              class="mt-6 inline-flex text-sm font-semibold text-slate-500 transition hover:text-[#00895f]"
+            >
+              &larr; Kembali ke Beranda
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="js/login.js"></script>
+  </body>
+</html>

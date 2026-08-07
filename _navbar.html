@@ -1,0 +1,119 @@
+<nav
+  id="navbar"
+  class="fixed top-0 left-0 z-50 w-full bg-white shadow-lg transition-colors duration-300"
+>
+  <div
+    class="container mx-auto px-4 py-4 flex items-center justify-between gap-4"
+  >
+    <a href="index.html" class="flex items-center gap-3">
+      <img
+        id="navbar-logo"
+        src="aset/logo/logonavbar2.png"
+        alt="Pondok Pesantren Darunnajah Timampu"
+        class="h-16 w-auto transition-all duration-500"
+      />
+    </a>
+
+    <div
+      id="nav-links"
+      class="hidden lg:flex items-center gap-6 text-base lg:text-lg"
+    >
+      <a
+        href="index.html"
+        class="relative px-3 py-2 font-bold hover:text-[#00895f] transition-colors after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 hover:after:w-5 after:h-[3px] after:bg-[#00895f] after:rounded-full after:transition-all"
+        >Beranda</a
+      >
+
+      <div class="relative">
+        <button
+          id="unit-sekolah-btn"
+          type="button"
+          class="relative px-3 py-2 font-bold hover:text-[#00895f] transition-colors after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 hover:after:w-5 after:h-[3px] after:bg-[#00895f] after:rounded-full after:transition-all flex items-center"
+        >
+          Unit Sekolah
+          <svg
+            id="unit-sekolah-icon"
+            class="ml-1 w-4 h-4 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </button>
+        <div
+          id="unit-sekolah-submenu"
+          class="absolute hidden bg-white shadow-lg rounded-md mt-2 w-48 z-10"
+        >
+          <a
+            href="ma-darunnajah.html"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >MA Darunnajah</a
+          >
+          <a
+            href="smp-it-darunnajah.html"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >SMP IT Darunnajah</a
+          >
+          <a
+            href="ra-darunnajah.html"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >RA Darunnajah</a
+          >
+        </div>
+      </div>
+      <a
+        href="prestasi.html"
+        class="relative px-3 py-2 font-bold hover:text-[#00895f] transition-colors after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 hover:after:w-5 after:h-[3px] after:bg-[#00895f] after:rounded-full after:transition-all"
+        >Prestasi</a
+      >
+      <a
+        href="spmb.html"
+        class="relative px-3 py-2 font-bold hover:text-[#00895f] transition-colors after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 hover:after:w-5 after:h-[3px] after:bg-[#00895f] after:rounded-full after:transition-all"
+        >SPMB</a
+      >
+    </div>
+
+    <div class="hidden lg:flex items-center">
+      <a
+        href="login.html"
+        class="rounded-full bg-[#0b3b01] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-[#0b3b01]/20 hover:bg-[#06410a] transition-all"
+        >Login</a
+      >
+    </div>
+
+    <button
+      id="menu-btn"
+      class="lg:hidden rounded-xl border border-slate-300 p-2 text-slate-700 transition-all duration-500"
+      aria-label="Toggle mobile menu"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          id="menu-icon"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="hidden lg:hidden bg-white border-t border-slate-200 px-4 pb-4"
+  >
+    <!-- Mobile menu links will be populated by JS -->
+  </div>
+</nav>

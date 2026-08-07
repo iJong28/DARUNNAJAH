@@ -1,0 +1,213 @@
+@theme {
+  --font-sans: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+  min-height: 100%;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background-image: url('../aset/background/background.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  opacity: 0.05;
+
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Fluid typography for responsive design */
+h1 {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.25rem, 3.5vw, 2.25rem);
+}
+
+h3 {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+p {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+}
+
+/* Mobile typography adjustments */
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 0 1rem;
+  }
+
+  .hero-content a {
+    padding: 0.6rem 1.5rem !important;
+    font-size: clamp(0.9rem, 2vw, 1rem) !important;
+  }
+
+  /* Navbar adjustments for mobile */
+  #navbar img {
+    height: clamp(3rem, 10vw, 4rem);
+  }
+
+  #navbar {
+    padding: clamp(0.5rem, 1vw, 1rem) 0;
+  }
+}
+
+.login-page {
+  background: linear-gradient(135deg, #f4f8f2 0%, #e7f1e9 52%, #fff8d8 100%);
+}
+
+.login-layout {
+  min-height: min(680px, calc(100vh - 5rem));
+}
+
+.login-intro {
+  background: linear-gradient(145deg, #0b3b01 0%, #145214 68%, #00895f 100%);
+}
+
+.login-panel {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.login-input:focus {
+  border-color: #00895f;
+  box-shadow: 0 0 0 3px rgba(0, 137, 95, 0.14);
+}
+
+.login-submit {
+  background: #0b3b01;
+}
+
+.login-submit:hover:not(:disabled) {
+  background: #06410a;
+}
+
+.login-error {
+  border-left: 3px solid #b42318;
+  background: #fff1f0;
+  color: #912018;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .login-layout {
+    min-height: auto;
+  }
+
+  .login-intro {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  h2 {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+  }
+
+  h3 {
+    font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  }
+
+  .hero-content a {
+    padding: 0.5rem 1.25rem !important;
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem) !important;
+  }
+}
+
+@media (max-width: 420px) {
+  h2 {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+  }
+
+  h3 {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
+
+  #navbar img {
+    height: 44px;
+  }
+
+  .hero-content {
+    padding: 0 0.75rem;
+  }
+}
+
+.program-tab {
+  padding: 12px 24px;
+  border: none;
+  background-color: transparent;
+  color: #374151;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.program-tab:hover {
+  background-color: #0b3b01;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.active-tab {
+  background-color: #0b3b01;
+  color: white;
+  box-shadow: 0 4px 12px rgba(11, 59, 1, 0.3);
+}
+
+.program-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .program-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding-inline: 1rem;
+    margin-inline: -1rem;
+  }
+
+  .program-tabs::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .program-tabs::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.08);
+    border-radius: 9999px;
+  }
+
+  .program-tabs::-webkit-scrollbar-thumb {
+    background: rgba(11, 59, 1, 0.35);
+    border-radius: 9999px;
+  }
+}
+
+/* Navbar link colors */
+#navbar #nav-links a,
+#navbar #nav-links button {
+  color: #1f2937; /* text-slate-800 */
+  transition: color 0.3s ease;
+}
+
+#navbar #nav-links a:hover,
+#navbar #nav-links button:hover {
+  color: #00895f;
+}
