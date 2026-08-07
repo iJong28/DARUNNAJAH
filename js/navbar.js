@@ -20,7 +20,7 @@ export async function loadNavbar() {
   if (!navbarPlaceholder) return console.error("Placeholder [data-navbar] tidak ditemukan.");
 
   try {
-    const response = await fetch("_navbar.html");
+    const response = await fetch("navbar.html");
     if (!response.ok) throw new Error(`Status ${response.status}`);
     
     navbarPlaceholder.innerHTML = await response.text();
