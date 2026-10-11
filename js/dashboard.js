@@ -337,24 +337,75 @@ function setupSidebarNavigation(profile, roleModule) {
   if (sidebarUserRoleBadge) sidebarUserRoleBadge.textContent = getRoleLabel(profile?.role);
   if (topbarProfileName) topbarProfileName.textContent = fullName;
 
-  // Daftar item menu yang tersedia
-  const items = roleModule?.menuItems || [
-    { id: "overview", label: "Ringkasan Utama", icon: "🏠", subtitle: "Pusat Kendali & Metrik Kinerja Madrasah" }
-  ];
+  // Cek apakah modul peran menyediakan menuGroups berjenjang atau menuItems datar
+  const groups = roleModule?.menuGroups || null;
+  const items = roleModule?.menuItems || (groups ? groups.flatMap(g => g.submenus) : [
+    { id: "lembaga_info", label: "Pengaturan Data Lembaga", icon: "🏛️", subtitle: "Pusat Kendali & Data Lembaga" }
+  ]);
 
   // Render menu ke sidebar sebelah kiri
   if (sidebarNavMenu) {
-    sidebarNavMenu.innerHTML = items.map(item => `
-      <button
-        type="button"
-        data-page="${item.id}"
-        class="sidebar-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-100/80 hover:bg-white/10 hover:text-white transition text-left cursor-pointer"
-      >
-        <span class="text-base">${item.icon}</span>
-        <span class="truncate">${item.label}</span>
-      </button>
-    `).join('');
+    if (groups) {
+      sidebarNavMenu.innerHTML = groups.map((g, gIdx) => `
+        <div class="sidebar-menu-group space-y-1">
+          <button
+            type="button"
+            class="btn-group-toggle w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-emerald-100 hover:bg-white/10 transition text-left cursor-pointer"
+            data-group="${g.id}"
+          >
+            <span class="flex items-center gap-2.5">
+              <span class="text-base">${g.icon}</span>
+              <span class="tracking-tight">${g.title}</span>
+            </span>
+            <span class="group-chevron text-[10px] text-emerald-300/70 transition-transform duration-200">▼</span>
+          </button>
+          <div class="group-submenus pl-3 space-y-1 ${gIdx === 0 ? '' : 'hidden'}" id="submenus-${g.id}">
+            ${g.submenus.map(sub => `
+              <button
+                type="button"
+                data-page="${sub.id}"
+                data-group="${g.id}"
+                class="sidebar-nav-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11px] font-medium text-emerald-100/75 hover:bg-white/10 hover:text-white transition text-left cursor-pointer"
+              >
+                <span class="text-xs">${sub.icon}</span>
+                <span class="truncate">${sub.label}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    } else {
+      sidebarNavMenu.innerHTML = items.map(item => `
+        <button
+          type="button"
+          data-page="${item.id}"
+          class="sidebar-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-100/80 hover:bg-white/10 hover:text-white transition text-left cursor-pointer"
+        >
+          <span class="text-base">${item.icon}</span>
+          <span class="truncate">${item.label}</span>
+        </button>
+      `).join('');
+    }
   }
+
+  // Handler toggle accordion grup menu
+  document.querySelectorAll(".btn-group-toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const groupId = btn.dataset.group;
+      const subContainer = document.getElementById(`submenus-${groupId}`);
+      const chevron = btn.querySelector(".group-chevron");
+      if (subContainer) {
+        const isHidden = subContainer.classList.contains("hidden");
+        if (isHidden) {
+          subContainer.classList.remove("hidden");
+          if (chevron) chevron.style.transform = "rotate(0deg)";
+        } else {
+          subContainer.classList.add("hidden");
+          if (chevron) chevron.style.transform = "rotate(-90deg)";
+        }
+      }
+    });
+  });
 
   // Mobile sidebar controls
   function openMobileSidebar() {
@@ -376,7 +427,7 @@ function setupSidebarNavigation(profile, roleModule) {
   sidebarBackdrop?.addEventListener("click", closeMobileSidebar);
 
   // Router halaman utama
-  let activePageId = "overview";
+  let activePageId = items[0]?.id || "lembaga_info";
 
   async function navigateToPage(pageId) {
     activePageId = pageId;
@@ -394,6 +445,20 @@ function setupSidebarNavigation(profile, roleModule) {
       pageMeta = items[0];
     }
 
+    // Jika menu berada dalam grup, buka accordion grupnya secara otomatis
+    const activeBtn = document.querySelector(`.sidebar-nav-item[data-page="${pageId}"]`);
+    if (activeBtn) {
+      const parentGroup = activeBtn.dataset.group;
+      if (parentGroup) {
+        const subContainer = document.getElementById(`submenus-${parentGroup}`);
+        if (subContainer && subContainer.classList.contains("hidden")) {
+          subContainer.classList.remove("hidden");
+          const groupBtn = document.querySelector(`.btn-group-toggle[data-group="${parentGroup}"] .group-chevron`);
+          if (groupBtn) groupBtn.style.transform = "rotate(0deg)";
+        }
+      }
+    }
+
     // Update Topbar
     if (topbarPageTitle) topbarPageTitle.textContent = pageMeta.label;
     if (topbarPageSubtitle) topbarPageSubtitle.textContent = pageMeta.subtitle;
@@ -402,9 +467,9 @@ function setupSidebarNavigation(profile, roleModule) {
     document.querySelectorAll(".sidebar-nav-item").forEach(btn => {
       const isTarget = btn.dataset.page === pageId;
       if (isTarget) {
-        btn.className = "sidebar-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-white/20 text-white shadow-sm ring-1 ring-white/20 transition text-left cursor-pointer";
+        btn.className = "sidebar-nav-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11px] font-bold bg-white/20 text-white shadow-xs ring-1 ring-white/20 transition text-left cursor-pointer";
       } else {
-        btn.className = "sidebar-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-100/80 hover:bg-white/10 hover:text-white transition text-left cursor-pointer";
+        btn.className = "sidebar-nav-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11px] font-medium text-emerald-100/75 hover:bg-white/10 hover:text-white transition text-left cursor-pointer";
       }
     });
 
@@ -464,7 +529,7 @@ function setupSidebarNavigation(profile, roleModule) {
   });
 
   // Buka halaman default pertama kali
-  navigateToPage("overview");
+  navigateToPage(items[0]?.id || "lembaga_info");
 }
 
 // ============================================================================
