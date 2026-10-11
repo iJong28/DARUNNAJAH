@@ -62,8 +62,14 @@ async function syncWithSupabase() {
       appState.users = profilesRes.value.data.map(u => ({
         id: u.id,
         full_name: u.full_name || "Tanpa Nama",
-        email: `${u.full_name?.toLowerCase().replace(/\s+/g, ".") || "user"}@darunnajah.sch.id`,
         role: u.role || "siswa",
+        email: (u.role === "operator" || u.role === "superadmin") ? "operator@darunnajah.sch.id" :
+               (u.role === "kepala_madrasah") ? "kamad@darunnajah.sch.id" :
+               (u.role === "walikelas") ? "walikelas@darunnajah.sch.id" :
+               (u.role === "bendahara") ? "bendahara@darunnajah.sch.id" :
+               (u.role === "siswa") ? "siswa@darunnajah.sch.id" :
+               (u.role === "guru") ? "guru@darunnajah.sch.id" :
+               `${u.full_name?.toLowerCase().replace(/\s+/g, ".") || "user"}@darunnajah.sch.id`,
         class_id: u.class_id,
         phone: "0812-3456-7890",
         nip: u.role === "guru" || u.role === "walikelas" ? `1985${Math.floor(100000 + Math.random() * 900000)}` : "-",

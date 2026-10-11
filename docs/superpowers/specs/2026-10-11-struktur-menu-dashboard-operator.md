@@ -76,3 +76,18 @@ Pengawasan dan pencatatan pembayaran kewajiban santri.
    * Mengklik sub-menu merender halaman khusus di canvas utama (`#main-page-container`).
 2. Topbar dinamis memperbarui judul pilar dan sub-menu yang sedang aktif.
 3. Data disinkronkan secara langsung dengan tabel Supabase (`classes`, `subjects`, `profiles`, `schedules`, `attendance`, `payments`).
+
+---
+
+## 4. Daftar Akun Resmi Madrasah (Supabase Auth Aktif)
+Semua akun telah didaftarkan dan diverifikasi di Supabase Auth (`auth.users`) serta tersinkronisasi ke tabel `public.profiles`:
+
+| Peran (Role) | Nama Lengkap | Email Resmi | Sandi Default | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Operator (Superadmin)** | Ustadz Aziz Wahab, S.Kom | `operator@darunnajah.sch.id` | `Password123!` | Aktif |
+| **Kepala Madrasah** | Drs. H. Ahmad Dahlan, M.Pd.I | `kamad@darunnajah.sch.id` | `Password123!` | Aktif |
+| **Dewan Guru** | Ustadz Rahmat Hidayat, S.Pd | `guru@darunnajah.sch.id` | `Password123!` | Aktif |
+| **Wali Kelas** | Ustadzah Nurul Fadhilah, S.Pd.I | `walikelas@darunnajah.sch.id` | `Password123!` | Aktif |
+| **Bendahara** | Ustadz Ridwan Malik, S.E | `bendahara@darunnajah.sch.id` | `Password123!` | Aktif |
+| **Santri / Siswa** | Muhammad Fatih Al-Ayyubi | `siswa@darunnajah.sch.id` | `Password123!` | Aktif |
+

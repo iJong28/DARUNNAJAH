@@ -64,29 +64,6 @@ loginForm.addEventListener("submit", async (event) => {
     const errMsg = (err?.message || "").toLowerCase();
     const emailVal = emailInput.value.trim().toLowerCase();
 
-    // Fallback cerdas untuk akun demo jika jaringan terganggu
-    if (emailVal.includes("test@darunnajah.sch.id") && passwordInput.value === "Password123!") {
-      let role = "operator";
-      let name = "Operator Madrasah";
-      if (emailVal.includes("kamad")) { role = "kepala_madrasah"; name = "Drs. KH. Ahmad Syahid, M.Pd.I"; }
-      else if (emailVal.includes("guru")) { role = "guru"; name = "Ustadz Rahmat Hidayat, S.Pd"; }
-      else if (emailVal.includes("walikelas")) { role = "walikelas"; name = "Ustadzah Nurul Fadhilah, S.Pd.I"; }
-      else if (emailVal.includes("bendahara")) { role = "bendahara"; name = "Ustadz Ridwan Malik, S.E"; }
-      else if (emailVal.includes("siswa")) { role = "siswa"; name = "Muhammad Fatih Al-Ayyubi"; }
-      else if (emailVal.includes("operator")) { role = "operator"; name = "Ustadz Aziz Wahab, S.Kom"; }
-
-      sessionStorage.setItem("darunnajah_demo_user", JSON.stringify({
-        id: "demo-" + role,
-        email: emailVal,
-        full_name: name,
-        role: role,
-        class_id: null
-      }));
-
-      window.location.replace("dashboard.html");
-      return;
-    }
-
     if (errMsg.includes("email not confirmed")) {
       msg = "Email belum dikonfirmasi. Silakan periksa kotak masuk/spam email Anda.";
     } else if (errMsg.includes("invalid login credentials")) {
@@ -102,20 +79,6 @@ loginForm.addEventListener("submit", async (event) => {
     loginSubmit.disabled = false;
     loginSubmit.textContent = "Masuk";
   }
-});
-
-// Handler untuk tombol akun demo (auto-fill)
-document.querySelectorAll(".demo-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const email = btn.dataset.email;
-    const pass = btn.dataset.pass;
-    if (email && pass) {
-      emailInput.value = email;
-      passwordInput.value = pass;
-      clearError();
-      emailInput.focus();
-    }
-  });
 });
 
 redirectIfAuthenticated();

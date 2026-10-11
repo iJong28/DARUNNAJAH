@@ -250,3 +250,15 @@ ON CONFLICT (id) DO UPDATE
 SET 
     full_name = EXCLUDED.full_name,
     role = EXCLUDED.role;
+
+-- =========================================================================
+-- DAFTAR AKUN RESMI PORTAL MADRASAH DARUNNAJAH (SUPABASE AUTH AKTIF)
+-- Password default seluruh akun: Password123!
+-- =========================================================================
+-- 1. Operator (Superadmin) : operator@darunnajah.sch.id -> Ustadz Aziz Wahab, S.Kom
+-- 2. Kepala Madrasah      : kamad@darunnajah.sch.id    -> Drs. H. Ahmad Dahlan, M.Pd.I
+-- 3. Dewan Guru            : guru@darunnajah.sch.id     -> Ustadz Rahmat Hidayat, S.Pd
+-- 4. Wali Kelas            : walikelas@darunnajah.sch.id-> Ustadzah Nurul Fadhilah, S.Pd.I
+-- 5. Bendahara Madrasah    : bendahara@darunnajah.sch.id-> Ustadz Ridwan Malik, S.E
+-- 6. Santri / Siswa        : siswa@darunnajah.sch.id    -> Muhammad Fatih Al-Ayyubi
+
