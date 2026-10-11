@@ -42,11 +42,126 @@ let appState = {
 };
 
 // ============================================================================
+// SISTEM PERSISTENSI DATA LOKAL & SINKRONISASI
+// ============================================================================
+
+const STORAGE_KEY = "darunnajah_portal_operator_state";
+
+export function saveAppState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      institution: appState.institution,
+      teachers: appState.teachers,
+      students: appState.students,
+      users: appState.users,
+      classes: appState.classes,
+      subjects: appState.subjects,
+      teachingAssignments: appState.teachingAssignments,
+      alumni: appState.alumni,
+      attendanceRecords: appState.attendanceRecords,
+      paymentRecords: appState.paymentRecords
+    }));
+  } catch (e) {
+    console.warn("Gagal menyimpan state ke localStorage:", e);
+  }
+}
+
+export function loadAppState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.institution) appState.institution = { ...appState.institution, ...parsed.institution };
+      if (Array.isArray(parsed.teachers) && parsed.teachers.length > 0) appState.teachers = parsed.teachers;
+      if (Array.isArray(parsed.students) && parsed.students.length > 0) appState.students = parsed.students;
+      if (Array.isArray(parsed.users) && parsed.users.length > 0) appState.users = parsed.users;
+      if (Array.isArray(parsed.classes) && parsed.classes.length > 0) appState.classes = parsed.classes;
+      if (Array.isArray(parsed.subjects) && parsed.subjects.length > 0) appState.subjects = parsed.subjects;
+      if (Array.isArray(parsed.teachingAssignments) && parsed.teachingAssignments.length > 0) appState.teachingAssignments = parsed.teachingAssignments;
+      if (Array.isArray(parsed.alumni) && parsed.alumni.length > 0) appState.alumni = parsed.alumni;
+      if (Array.isArray(parsed.attendanceRecords) && parsed.attendanceRecords.length > 0) appState.attendanceRecords = parsed.attendanceRecords;
+      if (Array.isArray(parsed.paymentRecords) && parsed.paymentRecords.length > 0) appState.paymentRecords = parsed.paymentRecords;
+    }
+  } catch (e) {
+    console.warn("Gagal memuat state dari localStorage:", e);
+  }
+
+  ensureBaselineState();
+}
+
+export function ensureBaselineState() {
+  if (appState.teachers.length === 0) {
+    appState.teachers = [
+      { id: "usr-guru-1", full_name: "Ustadz H. Ahmad Dahlan, S.Pd.I", email: "kamad@darunnajah.sch.id", role: "kepala_madrasah", nip: "197503122005011003", phone: "0812-4455-6677", gender: "Laki-laki", status: "Aktif Mengajar" },
+      { id: "usr-guru-2", full_name: "Ustadz Muhammad Syukri, Lc.", email: "syukri@darunnajah.sch.id", role: "walikelas", nip: "198507202012011002", phone: "0813-8899-1122", gender: "Laki-laki", status: "Aktif Mengajar" },
+      { id: "usr-guru-3", full_name: "Ustadzah Nurul Hidayah, S.Pd.", email: "nurul@darunnajah.sch.id", role: "walikelas", nip: "199008152018022004", phone: "0852-7788-9900", gender: "Perempuan", status: "Aktif Mengajar" },
+      { id: "usr-guru-4", full_name: "Ustadz Fathurrahman, M.Pd.", email: "fathur@darunnajah.sch.id", role: "guru", nip: "198811042016011005", phone: "0821-3344-5566", gender: "Laki-laki", status: "Aktif Mengajar" },
+      { id: "usr-guru-5", full_name: "Ustadzah Fatimah Azzahra, S.Ag.", email: "fatimah@darunnajah.sch.id", role: "guru", nip: "199204192019032001", phone: "0853-1122-3344", gender: "Perempuan", status: "Aktif Mengajar" }
+    ];
+  }
+  if (appState.classes.length === 0) {
+    appState.classes = [
+      { id: "cls-1", name: "MA Kelas X IPA", level: "MA", teacher_id: "usr-guru-2", homeroom: "Ustadz Muhammad Syukri, Lc.", studentsCount: 28, room: "Ruang Kelas 10A" },
+      { id: "cls-2", name: "MA Kelas XI IPA", level: "MA", teacher_id: "usr-guru-3", homeroom: "Ustadzah Nurul Hidayah, S.Pd.", studentsCount: 25, room: "Ruang Kelas 11A" },
+      { id: "cls-3", name: "MA Kelas XII Keagamaan", level: "MA", teacher_id: "usr-guru-4", homeroom: "Ustadz Fathurrahman, M.Pd.", studentsCount: 24, room: "Ruang Kelas 12B" },
+      { id: "cls-4", name: "SMP IT Kelas VII", level: "SMP IT", teacher_id: "usr-guru-5", homeroom: "Ustadzah Fatimah Azzahra, S.Ag.", studentsCount: 30, room: "Ruang SMP 1" },
+      { id: "cls-5", name: "SMP IT Kelas VIII", level: "SMP IT", teacher_id: "usr-guru-2", homeroom: "Ustadz Muhammad Syukri, Lc.", studentsCount: 27, room: "Ruang SMP 2" },
+      { id: "cls-6", name: "SMP IT Kelas IX", level: "SMP IT", teacher_id: "usr-guru-3", homeroom: "Ustadzah Nurul Hidayah, S.Pd.", studentsCount: 26, room: "Ruang SMP 3" },
+      { id: "cls-7", name: "RA (Raudhatul Athfal)", level: "RA", teacher_id: "usr-guru-5", homeroom: "Ustadzah Fatimah Azzahra, S.Ag.", studentsCount: 20, room: "Ruang RA" }
+    ];
+  }
+  if (appState.subjects.length === 0) {
+    appState.subjects = [
+      { id: "sub-1", code: "MP-01", name: "Tahfidz & Tahsin Al-Qur'an", category: "Agama & Kepesantrenan", hours: "6 Jam / Pekan" },
+      { id: "sub-2", code: "MP-02", name: "Fiqih & Ushul Fiqih", category: "Agama & Kepesantrenan", hours: "4 Jam / Pekan" },
+      { id: "sub-3", code: "MP-03", name: "Bahasa Arab", category: "Bahasa (Arab & Inggris)", hours: "4 Jam / Pekan" },
+      { id: "sub-4", code: "MP-04", name: "Bahasa Inggris", category: "Bahasa (Arab & Inggris)", hours: "4 Jam / Pekan" },
+      { id: "sub-5", code: "MP-05", name: "Matematika", category: "Sains & Matematika", hours: "4 Jam / Pekan" },
+      { id: "sub-6", code: "MP-06", name: "Biologi", category: "Sains & Matematika", hours: "4 Jam / Pekan" },
+      { id: "sub-7", code: "MP-07", name: "Hadits & Ilmu Hadits", category: "Agama & Kepesantrenan", hours: "3 Jam / Pekan" }
+    ];
+  }
+  if (appState.students.length === 0) {
+    appState.students = [
+      { id: "std-1", full_name: "Ahmad Rizky Pratama", nisn: "0081234501", class_id: "cls-1", gender: "Laki-laki", status: "Aktif", phone: "0812-9988-7711", role: "siswa", email: "ahmad.rizky@darunnajah.sch.id" },
+      { id: "std-2", full_name: "Muhammad Bilal Habibi", nisn: "0081234502", class_id: "cls-1", gender: "Laki-laki", status: "Aktif", phone: "0812-9988-7712", role: "siswa", email: "bilal.habibi@darunnajah.sch.id" },
+      { id: "std-3", full_name: "Fathimah Zahra Syahidah", nisn: "0081234503", class_id: "cls-1", gender: "Perempuan", status: "Aktif", phone: "0812-9988-7713", role: "siswa", email: "fathimah.zahra@darunnajah.sch.id" },
+      { id: "std-4", full_name: "Muhammad Raihan Al-Ghifari", nisn: "0071234504", class_id: "cls-2", gender: "Laki-laki", status: "Aktif", phone: "0812-9988-7714", role: "siswa", email: "raihan.ghifari@darunnajah.sch.id" },
+      { id: "std-5", full_name: "Aisyah Humairah", nisn: "0071234505", class_id: "cls-2", gender: "Perempuan", status: "Aktif", phone: "0812-9988-7715", role: "siswa", email: "aisyah.humairah@darunnajah.sch.id" },
+      { id: "std-6", full_name: "Zaidan Al-Faris", nisn: "0061234506", class_id: "cls-3", gender: "Laki-laki", status: "Aktif", phone: "0812-9988-7716", role: "siswa", email: "zaidan.alfaris@darunnajah.sch.id" },
+      { id: "std-7", full_name: "Maryam Shalihah", nisn: "0061234507", class_id: "cls-3", gender: "Perempuan", status: "Aktif", phone: "0812-9988-7717", role: "siswa", email: "maryam.shalihah@darunnajah.sch.id" }
+    ];
+  }
+  if (appState.teachingAssignments.length === 0) {
+    appState.teachingAssignments = [
+      { id: "asg-1", teacherId: "usr-guru-2", teacherName: "Ustadz Muhammad Syukri, Lc.", subjectId: "sub-1", subjectName: "Tahfidz & Tahsin Al-Qur'an", classId: "cls-1", className: "MA Kelas X IPA", hours: "07:30 - 09:00" },
+      { id: "asg-2", teacherId: "usr-guru-2", teacherName: "Ustadz Muhammad Syukri, Lc.", subjectId: "sub-3", subjectName: "Bahasa Arab", classId: "cls-1", className: "MA Kelas X IPA", hours: "09:15 - 10:45" },
+      { id: "asg-3", teacherId: "usr-guru-3", teacherName: "Ustadzah Nurul Hidayah, S.Pd.", subjectId: "sub-6", subjectName: "Biologi", classId: "cls-2", className: "MA Kelas XI IPA", hours: "07:30 - 09:00" },
+      { id: "asg-4", teacherId: "usr-guru-4", teacherName: "Ustadz Fathurrahman, M.Pd.", subjectId: "sub-2", subjectName: "Fiqih & Ushul Fiqih", classId: "cls-3", className: "MA Kelas XII Keagamaan", hours: "08:00 - 09:30" }
+    ];
+  }
+  if (appState.alumni.length === 0) {
+    appState.alumni = [
+      { id: "alm-1", name: "Muhammad Fikri Pratama", nisn: "0068472910", graduationYear: "2025", lastClass: "MA Kelas XII IPA", status: "Kuliah (UIN Alauddin Makassar)", phone: "0813-5566-7788" },
+      { id: "alm-2", name: "Nurul Aisyah Zahra", nisn: "0069384721", graduationYear: "2025", lastClass: "MA Kelas XII Keagamaan", status: "Pondok Lanjutan (Kudus)", phone: "0852-4433-2211" }
+    ];
+  }
+  if (appState.users.length === 0) {
+    appState.users = [...appState.teachers, ...appState.students];
+  }
+}
+
+// Inisialisasi awal dari storage
+loadAppState();
+
+// ============================================================================
 // SINKRONISASI DATA SUPABASE
 // ============================================================================
 
 async function syncWithSupabase() {
   try {
+    loadAppState();
+
     const [profilesRes, classesRes, subjectsRes, schedulesRes, attendanceRes, paymentsRes] = await Promise.allSettled([
       supabase.from("profiles").select("id, full_name, role, class_id").order("full_name"),
       supabase.from("classes").select("id, name, teacher_id"),
@@ -56,86 +171,124 @@ async function syncWithSupabase() {
       supabase.from("payments").select("id, student_id, month, year, amount, status")
     ]);
 
-    // 1. Profil Pengguna
-    if (profilesRes.status === "fulfilled" && profilesRes.value.data) {
-      appState.users = profilesRes.value.data.map(u => ({
-        id: u.id,
-        full_name: u.full_name || "Tanpa Nama",
-        role: u.role || "siswa",
-        email: (u.role === "operator" || u.role === "superadmin") ? "operator@darunnajah.sch.id" :
-               (u.role === "kepala_madrasah") ? "kamad@darunnajah.sch.id" :
-               (u.role === "walikelas") ? "walikelas@darunnajah.sch.id" :
-               (u.role === "bendahara") ? "bendahara@darunnajah.sch.id" :
-               (u.role === "siswa") ? "siswa@darunnajah.sch.id" :
-               (u.role === "guru") ? "guru@darunnajah.sch.id" :
-               `${u.full_name?.toLowerCase().replace(/\s+/g, ".") || "user"}@darunnajah.sch.id`,
-        class_id: u.class_id,
-        phone: "0812-3456-7890",
-        nip: u.role === "guru" || u.role === "walikelas" ? `1985${Math.floor(100000 + Math.random() * 900000)}` : "-",
-        nisn: u.role === "siswa" ? `008${Math.floor(1000000 + Math.random() * 9000000)}` : "-",
-        gender: "Laki-laki",
-        status: "Aktif"
-      }));
+    // 1. Profil Pengguna (Merge Cerdas tanpa menimpa data yang diedit)
+    if (profilesRes.status === "fulfilled" && Array.isArray(profilesRes.value.data) && profilesRes.value.data.length > 0) {
+      const dbProfiles = profilesRes.value.data;
+      
+      dbProfiles.forEach(u => {
+        const existing = appState.users.find(x => x.id === u.id);
+        if (existing) {
+          existing.full_name = u.full_name || existing.full_name;
+          existing.role = u.role || existing.role;
+          if (u.class_id !== undefined) existing.class_id = u.class_id;
+        } else {
+          let email = `${u.full_name?.toLowerCase().replace(/\s+/g, ".") || "user"}@darunnajah.sch.id`;
+          if (u.role === "operator" || u.role === "superadmin") email = "operator@darunnajah.sch.id";
+          else if (u.role === "kepala_madrasah") email = "kamad@darunnajah.sch.id";
+          else if (u.role === "walikelas") email = "walikelas@darunnajah.sch.id";
+          else if (u.role === "bendahara") email = "bendahara@darunnajah.sch.id";
+          else if (u.role === "siswa") email = "siswa@darunnajah.sch.id";
+
+          appState.users.push({
+            id: u.id,
+            full_name: u.full_name || "Tanpa Nama",
+            role: u.role || "siswa",
+            email: email,
+            class_id: u.class_id,
+            phone: "0812-3456-7890",
+            nip: u.role === "guru" || u.role === "walikelas" ? "198501012015011001" : "-",
+            nisn: u.role === "siswa" ? "0081234567" : "-",
+            gender: "Laki-laki",
+            status: "Aktif"
+          });
+        }
+      });
 
       appState.teachers = appState.users.filter(u => u.role === "guru" || u.role === "walikelas" || u.role === "kepala_madrasah");
       appState.students = appState.users.filter(u => u.role === "siswa");
     }
 
-    // 2. Kelas / Rombel
-    if (classesRes.status === "fulfilled" && classesRes.value.data) {
-      appState.classes = classesRes.value.data.map((c, idx) => {
+    // 2. Kelas / Rombel (Merge jika ada dari Supabase)
+    if (classesRes.status === "fulfilled" && Array.isArray(classesRes.value.data) && classesRes.value.data.length > 0) {
+      classesRes.value.data.forEach((c, idx) => {
+        const existingCls = appState.classes.find(x => x.id === c.id);
         const teacher = appState.teachers.find(t => t.id === c.teacher_id);
         const count = appState.students.filter(s => s.class_id === c.id).length;
-        return {
-          id: c.id,
-          name: c.name,
-          level: c.name.includes("SMP") ? "SMP IT" : c.name.includes("RA") ? "RA" : "MA",
-          teacher_id: c.teacher_id,
-          homeroom: teacher ? teacher.full_name : "Belum Ditugaskan",
-          studentsCount: count || 0,
-          room: `Ruang Kelas ${idx + 1}`
-        };
+        if (existingCls) {
+          existingCls.name = c.name;
+          existingCls.teacher_id = c.teacher_id;
+          existingCls.homeroom = teacher ? teacher.full_name : existingCls.homeroom || "Belum Ditugaskan";
+          existingCls.studentsCount = count;
+        } else {
+          appState.classes.push({
+            id: c.id,
+            name: c.name,
+            level: c.name.includes("SMP") ? "SMP IT" : c.name.includes("RA") ? "RA" : "MA",
+            teacher_id: c.teacher_id,
+            homeroom: teacher ? teacher.full_name : "Belum Ditugaskan",
+            studentsCount: count || 0,
+            room: `Ruang Kelas ${idx + 1}`
+          });
+        }
       });
     }
 
-    // 3. Mata Pelajaran
-    if (subjectsRes.status === "fulfilled" && subjectsRes.value.data) {
-      appState.subjects = subjectsRes.value.data.map((s, idx) => ({
-        id: s.id,
-        code: `MP-${String(idx + 1).padStart(2, '0')}`,
-        name: s.name,
-        category: s.description || "Umum",
-        hours: "4 Jam / Pekan",
-        kkm: 75
-      }));
+    // 3. Mata Pelajaran (Merge jika ada dari Supabase)
+    if (subjectsRes.status === "fulfilled" && Array.isArray(subjectsRes.value.data) && subjectsRes.value.data.length > 0) {
+      subjectsRes.value.data.forEach((s, idx) => {
+        const existingSub = appState.subjects.find(x => x.id === s.id);
+        if (existingSub) {
+          existingSub.name = s.name;
+          existingSub.category = s.description || existingSub.category;
+        } else {
+          appState.subjects.push({
+            id: s.id,
+            code: `MP-${String(idx + 1).padStart(2, '0')}`,
+            name: s.name,
+            category: s.description || "Umum",
+            hours: "4 Jam / Pekan",
+            kkm: 75
+          });
+        }
+      });
     }
 
     // 4. Mapel Ampuh / Schedules
-    if (schedulesRes.status === "fulfilled" && schedulesRes.value.data) {
-      appState.teachingAssignments = schedulesRes.value.data.map(sc => {
+    if (schedulesRes.status === "fulfilled" && Array.isArray(schedulesRes.value.data) && schedulesRes.value.data.length > 0) {
+      schedulesRes.value.data.forEach(sc => {
         const teacher = appState.teachers.find(t => t.id === sc.teacher_id);
         const subject = appState.subjects.find(s => s.id === sc.subject_id);
         const cls = appState.classes.find(c => c.id === sc.class_id);
-        return {
-          id: sc.id,
-          teacherId: sc.teacher_id,
-          teacherName: teacher?.full_name || "Guru",
-          subjectId: sc.subject_id,
-          subjectName: subject?.name || "Mata Pelajaran",
-          classId: sc.class_id,
-          className: cls?.name || "Kelas",
-          hours: `${sc.start_time?.substring(0, 5) || "08:00"} - ${sc.end_time?.substring(0, 5) || "09:30"}`
-        };
+        const existing = appState.teachingAssignments.find(x => x.id === sc.id);
+        if (existing) {
+          existing.teacherId = sc.teacher_id;
+          existing.teacherName = teacher?.full_name || existing.teacherName;
+          existing.subjectId = sc.subject_id;
+          existing.subjectName = subject?.name || existing.subjectName;
+          existing.classId = sc.class_id;
+          existing.className = cls?.name || existing.className;
+        } else {
+          appState.teachingAssignments.push({
+            id: sc.id,
+            teacherId: sc.teacher_id,
+            teacherName: teacher?.full_name || "Guru",
+            subjectId: sc.subject_id,
+            subjectName: subject?.name || "Mata Pelajaran",
+            classId: sc.class_id,
+            className: cls?.name || "Kelas",
+            hours: `${sc.start_time?.substring(0, 5) || "08:00"} - ${sc.end_time?.substring(0, 5) || "09:30"}`
+          });
+        }
       });
     }
 
     // 5. Data Absensi
-    if (attendanceRes.status === "fulfilled" && attendanceRes.value.data) {
+    if (attendanceRes.status === "fulfilled" && Array.isArray(attendanceRes.value.data) && attendanceRes.value.data.length > 0) {
       appState.attendanceRecords = attendanceRes.value.data;
     }
 
     // 6. Data Iuran
-    if (paymentsRes.status === "fulfilled" && paymentsRes.value.data) {
+    if (paymentsRes.status === "fulfilled" && Array.isArray(paymentsRes.value.data) && paymentsRes.value.data.length > 0) {
       appState.paymentRecords = paymentsRes.value.data;
     }
 
@@ -146,6 +299,9 @@ async function syncWithSupabase() {
         { id: "alm-2", name: "Nurul Aisyah Zahra", nisn: "0069384721", graduationYear: "2025", lastClass: "MA Kelas XII Keagamaan", status: "Pondok Lanjutan (Kudus)", phone: "0852-4433-2211" }
       ];
     }
+
+    // Simpan hasil sinkronisasi ke storage
+    saveAppState();
 
   } catch (err) {
     console.warn("Sinkronisasi Supabase:", err);
@@ -361,7 +517,8 @@ function renderLembagaInfoPage(container) {
     inst.email = document.getElementById("inst-email").value.trim();
     inst.vision = document.getElementById("inst-vision").value.trim();
 
-    window.dashboardModal.toast("Data lembaga berhasil diperbarui!", "success");
+    saveAppState();
+    window.dashboardModal.toast("Data lembaga berhasil disimpan!", "success");
     renderLembagaInfoPage(container);
   };
 
@@ -474,7 +631,7 @@ function renderLembagaMapelPage(container) {
 
           try {
             const { data, error } = await supabase.from("subjects").insert([{ name, description: cat }]).select();
-            if (error) throw error;
+            if (error) console.warn("Supabase insert subject:", error);
             appState.subjects.push({
               id: data?.[0]?.id || `sub-${Date.now()}`,
               code: `MP-${String(appState.subjects.length + 1).padStart(2, '0')}`,
@@ -482,6 +639,7 @@ function renderLembagaMapelPage(container) {
               category: cat,
               hours
             });
+            saveAppState();
             window.dashboardModal.toast(`Mata pelajaran ${name} berhasil ditambahkan!`, "success");
             close();
             refresh();
@@ -504,12 +662,11 @@ function renderLembagaMapelPage(container) {
       if (confirm(`Apakah Anda yakin ingin menghapus mata pelajaran "${name}"?`)) {
         try {
           await supabase.from("subjects").delete().eq("id", id);
-          appState.subjects = appState.subjects.filter(s => s.id !== id);
-          window.dashboardModal.toast(`Mata pelajaran "${name}" berhasil dihapus.`, "success");
-          refresh();
-        } catch (err) {
-          window.dashboardModal.toast(`Gagal menghapus: ${err.message}`, "error");
-        }
+        } catch {}
+        appState.subjects = appState.subjects.filter(s => s.id !== id);
+        saveAppState();
+        window.dashboardModal.toast(`Mata pelajaran "${name}" berhasil dihapus.`, "success");
+        refresh();
       }
     });
   });
@@ -610,6 +767,7 @@ function renderLembagaRombelPage(container) {
               studentsCount: 0,
               room: `Ruang Kelas ${appState.classes.length + 1}`
             });
+            saveAppState();
             window.dashboardModal.toast(`Rombel "${name}" berhasil dibuat!`, "success");
             close();
             refresh();
@@ -662,8 +820,10 @@ function renderLembagaRombelPage(container) {
               await supabase.from("classes").update({ name: newName, teacher_id: newTeacherId }).eq("id", cls.id);
               cls.name = newName;
               cls.teacher_id = newTeacherId;
+              cls.level = newName.includes("SMP") ? "SMP IT" : newName.includes("RA") ? "RA" : "MA";
               const teacher = appState.teachers.find(t => t.id === newTeacherId);
               cls.homeroom = teacher ? teacher.full_name : "Belum Ditugaskan";
+              saveAppState();
               window.dashboardModal.toast(`Rombel "${newName}" berhasil diperbarui!`, "success");
               close();
               refresh();
@@ -684,12 +844,11 @@ function renderLembagaRombelPage(container) {
       if (confirm(`Apakah Anda yakin ingin menghapus rombel "${name}"?`)) {
         try {
           await supabase.from("classes").delete().eq("id", id);
-          appState.classes = appState.classes.filter(c => c.id !== id);
-          window.dashboardModal.toast(`Rombel "${name}" berhasil dihapus.`, "success");
-          refresh();
-        } catch (err) {
-          window.dashboardModal.toast(`Gagal menghapus: ${err.message}`, "error");
-        }
+        } catch {}
+        appState.classes = appState.classes.filter(c => c.id !== id);
+        saveAppState();
+        window.dashboardModal.toast(`Rombel "${name}" berhasil dihapus.`, "success");
+        refresh();
       }
     });
   });
@@ -746,9 +905,14 @@ function renderGuruDataPage(container) {
                 </td>
                 <td class="px-4 py-3 text-emerald-700 font-bold">🟢 Aktif Mengajar</td>
                 <td class="px-4 py-3 text-center">
-                  <button class="btn-edit-guru text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-xl transition cursor-pointer" data-id="${t.id}">
-                    ✏️ Edit Biodata
-                  </button>
+                  <div class="inline-flex items-center gap-1.5 justify-center">
+                    <button class="btn-edit-guru text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1.5 rounded-xl transition cursor-pointer" data-id="${t.id}">
+                      ✏️ Edit
+                    </button>
+                    <button class="btn-delete-guru text-[11px] font-bold text-red-600 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-xl transition cursor-pointer" data-id="${t.id}" data-name="${t.full_name}">
+                      🗑️ Hapus
+                    </button>
+                  </div>
                 </td>
               </tr>
             `).join('')}
@@ -840,35 +1004,31 @@ function renderGuruDataPage(container) {
           try {
             let newUserId = `usr-${Date.now()}`;
 
-            // Daftarkan langsung ke Supabase Auth melalui REST API endpoint
+            // Daftarkan langsung ke Supabase Auth melalui REST API endpoint jika online
             if (supabaseUrl && supabaseAnonKey) {
-              const signupRes = await fetch(`${supabaseUrl}/auth/v1/signup`, {
-                method: "POST",
-                headers: {
-                  "apikey": supabaseAnonKey,
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                  email,
-                  password,
-                  data: {
-                    full_name: name,
-                    role: role
-                  }
-                })
-              });
+              try {
+                const signupRes = await fetch(`${supabaseUrl}/auth/v1/signup`, {
+                  method: "POST",
+                  headers: {
+                    "apikey": supabaseAnonKey,
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    email,
+                    password,
+                    data: {
+                      full_name: name,
+                      role: role
+                    }
+                  })
+                });
 
-              const signupData = await signupRes.json();
-              if (!signupRes.ok) {
-                const errMsg = signupData?.msg || signupData?.message || signupData?.error_description || "Gagal mendaftarkan akun di server.";
-                if (errMsg.toLowerCase().includes("already registered")) {
-                  throw new Error(`Email "${email}" sudah pernah didaftarkan. Silakan gunakan email lain.`);
+                const signupData = await signupRes.json();
+                if (signupRes.ok && signupData?.user?.id) {
+                  newUserId = signupData.user.id;
                 }
-                throw new Error(errMsg);
-              }
-
-              if (signupData?.user?.id) {
-                newUserId = signupData.user.id;
+              } catch (authErr) {
+                console.warn("Supabase auth signup:", authErr);
               }
             }
 
@@ -881,13 +1041,14 @@ function renderGuruDataPage(container) {
               nip: nip,
               phone: phone,
               gender: "Laki-laki",
-              status: "Aktif"
+              status: "Aktif Mengajar"
             };
 
             appState.teachers.unshift(newTeacherObj);
             appState.users.unshift(newTeacherObj);
+            saveAppState();
 
-            window.dashboardModal.toast(`Akun guru "${name}" (${email}) berhasil didaftarkan! Kredensial siap digunakan untuk login.`, "success");
+            window.dashboardModal.toast(`Akun guru "${name}" (${email}) berhasil didaftarkan dan disimpan!`, "success");
             close();
             refresh();
           } catch (err) {
@@ -958,16 +1119,49 @@ function renderGuruDataPage(container) {
             guru.phone = modalBody.querySelector("#eg-phone").value.trim() || guru.phone;
             guru.role = modalBody.querySelector("#eg-role").value;
 
+            // Sinkronkan ke appState.users juga
+            const uIdx = appState.users.findIndex(u => u.id === guru.id);
+            if (uIdx !== -1) {
+              appState.users[uIdx].full_name = guru.full_name;
+              appState.users[uIdx].nip = guru.nip;
+              appState.users[uIdx].phone = guru.phone;
+              appState.users[uIdx].role = guru.role;
+            }
+
+            saveAppState();
+
             try {
               await supabase.from("profiles").update({ full_name: guru.full_name, role: guru.role }).eq("id", guru.id);
-            } catch {}
+            } catch (supErr) {
+              console.warn("Supabase profile update:", supErr);
+            }
 
-            window.dashboardModal.toast("Biodata guru berhasil diperbarui!", "success");
+            window.dashboardModal.toast("Biodata guru berhasil diperbarui dan disimpan!", "success");
             close();
             refresh();
           });
         }
       });
+    });
+  });
+
+  // Hapus Guru
+  container.querySelectorAll(".btn-delete-guru").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+      if (confirm(`Apakah Anda yakin ingin menghapus data guru "${name}"?`)) {
+        appState.teachers = appState.teachers.filter(t => t.id !== id);
+        appState.users = appState.users.filter(u => u.id !== id);
+        saveAppState();
+
+        try {
+          await supabase.from("profiles").delete().eq("id", id);
+        } catch {}
+
+        window.dashboardModal.toast(`Data guru "${name}" berhasil dihapus.`, "success");
+        refresh();
+      }
     });
   });
 }
@@ -1086,6 +1280,7 @@ function renderGuruMapelPage(container) {
             className: cls?.name || "Kelas",
             hours: "07:30 - 09:00"
           });
+          saveAppState();
 
           window.dashboardModal.toast(`Penugasan ${teacher?.full_name} untuk ${subject?.name} di ${cls?.name} berhasil disimpan!`, "success");
           close();
@@ -1100,6 +1295,7 @@ function renderGuruMapelPage(container) {
     btn.addEventListener("click", () => {
       const id = btn.dataset.id;
       appState.teachingAssignments = appState.teachingAssignments.filter(a => a.id !== id);
+      saveAppState();
       window.dashboardModal.toast("Penugasan mengajar dihapus.", "info");
       refresh();
     });
@@ -1241,7 +1437,7 @@ function renderMuridDataPage(container) {
           const gender = modalBody.querySelector("#std-gender").value;
 
           const fakeId = `std-${Date.now()}`;
-          appState.students.push({
+          const newStudent = {
             id: fakeId,
             full_name: name,
             email: `${name.toLowerCase().replace(/\s+/g, ".")}@darunnajah.sch.id`,
@@ -1250,11 +1446,15 @@ function renderMuridDataPage(container) {
             nisn,
             gender,
             status: "Aktif"
-          });
+          };
+          appState.students.push(newStudent);
+          appState.users.push(newStudent);
 
           // Update student count in class
           const cls = appState.classes.find(c => c.id === classId);
           if (cls) cls.studentsCount = (cls.studentsCount || 0) + 1;
+
+          saveAppState();
 
           window.dashboardModal.toast(`Murid "${name}" berhasil ditambahkan!`, "success");
           close();
@@ -1271,6 +1471,8 @@ function renderMuridDataPage(container) {
       const name = btn.dataset.name;
       if (confirm(`Yakin ingin menghapus data murid "${name}"?`)) {
         appState.students = appState.students.filter(s => s.id !== id);
+        appState.users = appState.users.filter(u => u.id !== id);
+        saveAppState();
         window.dashboardModal.toast(`Murid "${name}" dihapus.`, "success");
         refresh();
       }
@@ -1335,6 +1537,10 @@ function renderMuridPindahPage(container) {
       } catch {}
 
       std.class_id = targetClassId;
+      const u = appState.users.find(x => x.id === stdId);
+      if (u) u.class_id = targetClassId;
+      saveAppState();
+
       window.dashboardModal.toast(`Santri ${std.full_name} berhasil dipindahkan ke ${targetCls.name}!`, "success");
       renderMuridPindahPage(container);
     }
@@ -1430,14 +1636,21 @@ function renderMuridNaikPage(container) {
               phone: s.phone || "-"
             });
             appState.students = appState.students.filter(st => st.id !== id);
+            appState.users = appState.users.filter(u => u.id !== id);
           }
         });
+        saveAppState();
         window.dashboardModal.toast(`${ids.length} santri berhasil ditamatkan menjadi Alumni!`, "success");
       } else {
         ids.forEach(id => {
           const s = appState.students.find(st => st.id === id);
-          if (s) s.class_id = targetClassId;
+          if (s) {
+            s.class_id = targetClassId;
+            const u = appState.users.find(x => x.id === id);
+            if (u) u.class_id = targetClassId;
+          }
         });
+        saveAppState();
         window.dashboardModal.toast(`${ids.length} santri berhasil dinaikkan kelas!`, "success");
       }
 
@@ -1529,6 +1742,7 @@ function renderMuridAlumniPage(container) {
             status: modalBody.querySelector("#al-status").value.trim(),
             phone: "0812-xxxx-xxxx"
           });
+          saveAppState();
           window.dashboardModal.toast("Data alumni berhasil ditambahkan!", "success");
           close();
           renderMuridAlumniPage(container);
@@ -1627,6 +1841,23 @@ function renderKehadiranAbsenPage(container) {
     });
 
     document.getElementById("btn-save-attendance")?.addEventListener("click", () => {
+      const records = [];
+      studentsInClass.forEach(s => {
+        const checkedRadio = container.querySelector(`input[name="att_${s.id}"]:checked`);
+        records.push({
+          id: `att-${Date.now()}-${s.id}`,
+          student_id: s.id,
+          student_name: s.full_name,
+          class_id: selectedClassId,
+          date: selectedDate,
+          status: checkedRadio ? checkedRadio.value : "hadir"
+        });
+      });
+      appState.attendanceRecords = [
+        ...appState.attendanceRecords.filter(r => !(r.class_id === selectedClassId && r.date === selectedDate)),
+        ...records
+      ];
+      saveAppState();
       window.dashboardModal.toast(`Presensi ${studentsInClass.length} santri berhasil disimpan!`, "success");
     });
   }
@@ -1730,21 +1961,24 @@ function renderKeuanganIuranPage(container) {
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            ${appState.students.map((s, idx) => `
+            ${appState.students.map((s, idx) => {
+              const payment = appState.paymentRecords.find(p => p.student_id === s.id);
+              const isLunas = !!payment || (idx % 2 === 0);
+              return `
               <tr class="hover:bg-slate-50/60 transition">
                 <td class="px-4 py-3 font-bold text-slate-900">${s.full_name}</td>
-                <td class="px-4 py-3 text-slate-600">Iuran Syahriah (SPP Bulanan)</td>
-                <td class="px-4 py-3 font-mono font-bold text-emerald-800">Rp 150.000</td>
-                <td class="px-4 py-3 text-slate-500">Oktober 2026</td>
+                <td class="px-4 py-3 text-slate-600">${payment ? payment.type : "Iuran Syahriah (SPP Bulanan)"}</td>
+                <td class="px-4 py-3 font-mono font-bold text-emerald-800">Rp ${(payment ? payment.amount : 150000).toLocaleString('id-ID')}</td>
+                <td class="px-4 py-3 text-slate-500">${payment ? payment.month + ' ' + payment.year : 'Oktober 2026'}</td>
                 <td class="px-4 py-3">
                   <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                    idx % 2 === 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                    isLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
                   }">
-                    ${idx % 2 === 0 ? 'LUNAS' : 'BELUM LUNAS'}
+                    ${isLunas ? 'LUNAS' : 'BELUM LUNAS'}
                   </span>
                 </td>
               </tr>
-            `).join('')}
+            `;}).join('')}
           </tbody>
         </table>
       </div>
@@ -1785,6 +2019,24 @@ function renderKeuanganIuranPage(container) {
       onMount: (modalBody, close) => {
         modalBody.querySelector("#form-modal-iuran")?.addEventListener("submit", (e) => {
           e.preventDefault();
+          const studentId = modalBody.querySelector("#i-student").value;
+          const iType = modalBody.querySelector("#i-type").value;
+          const amount = parseInt(modalBody.querySelector("#i-amount").value, 10) || 150000;
+          const student = appState.students.find(s => s.id === studentId);
+
+          appState.paymentRecords.unshift({
+            id: `pay-${Date.now()}`,
+            student_id: studentId,
+            student_name: student?.full_name || "Santri",
+            type: iType,
+            amount: amount,
+            date: new Date().toISOString().substring(0, 10),
+            month: "Oktober",
+            year: 2026,
+            status: "LUNAS"
+          });
+          saveAppState();
+
           window.dashboardModal.toast("Pembayaran iuran berhasil dicatat dan diverifikasi!", "success");
           close();
           renderKeuanganIuranPage(container);
