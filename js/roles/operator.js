@@ -107,6 +107,13 @@ export async function renderPage(pageKey, container, profile) {
   await syncWithSupabase();
 
   switch (pageKey) {
+    // Profil Pengguna & Kata Sandi Saya
+    case "profile":
+      if (typeof window.renderProfileCanvas === "function") {
+        window.renderProfileCanvas(container, profile);
+      }
+      break;
+
     // 1. Pilar Lembaga
     case "lembaga_info":
       renderLembagaInfoPage(container);

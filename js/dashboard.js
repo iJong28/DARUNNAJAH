@@ -313,6 +313,209 @@ export function openMyProfileModal(profile, initialTab = "profile") {
 }
 
 // ============================================================================
+// HALAMAN PENUH: PROFIL & KATA SANDI SAYA
+// ============================================================================
+
+export function renderProfileCanvas(container, profile) {
+  const userProf = profile || activeProfileState || {};
+  const initial = (userProf.full_name || "D").charAt(0).toUpperCase();
+
+  container.innerHTML = `
+    <div class="space-y-6">
+      <!-- HEADER PROFIL & IDENTITAS AKUN -->
+      <article class="relative overflow-hidden rounded-3xl border border-emerald-800/20 bg-gradient-to-r from-emerald-950 via-[#0b3b01] to-[#004d2e] p-6 text-white shadow-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div class="flex items-center gap-4">
+            <div id="page-profile-avatar" class="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-white/20 text-white font-black text-2xl sm:text-3xl flex items-center justify-center border border-white/30 shadow-lg backdrop-blur-md">
+              ${initial}
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-xs font-bold uppercase tracking-wider text-emerald-300 border border-emerald-400/30">
+                  <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  ${getRoleLabel(userProf.role)}
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] text-emerald-200 font-medium">
+                  🟢 Akun Aktif & Terverifikasi
+                </span>
+              </div>
+              <h2 id="page-profile-heading-name" class="mt-2 text-2xl sm:text-3xl font-black tracking-tight">${userProf.full_name || "Pengguna Darunnajah"}</h2>
+              <p id="page-profile-heading-email" class="text-xs sm:text-sm text-emerald-200/90 mt-0.5">${userProf.email || "-"}</p>
+            </div>
+          </div>
+          <div class="text-xs text-emerald-200/80 bg-white/10 p-3.5 rounded-2xl border border-white/10 backdrop-blur-md">
+            <p class="font-bold text-white mb-0.5">ID Pengguna:</p>
+            <p class="font-mono text-[11px]">${userProf.id || "-"}</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- DUA KARTU FORM: DATA DIRI & KEAMANAN SANDI -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 1. INFORMASI PRIBADI & KONTAK -->
+        <div class="rounded-3xl border border-white/70 bg-white/95 p-6 shadow-xl shadow-[#0b3b01]/5 space-y-5">
+          <div>
+            <h3 class="text-lg font-black text-[#0b3b01]">Informasi Akun & Data Diri</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Perbarui nama lengkap dan alamat email yang Anda gunakan untuk login.</p>
+          </div>
+
+          <form id="form-canvas-profile" class="space-y-4 text-xs">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Nama Lengkap & Gelar</label>
+              <input id="canvas-my-name" type="text" value="${userProf.full_name || ''}" required 
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Alamat Email (Username Login)</label>
+              <input id="canvas-my-email" type="email" value="${userProf.email || ''}" required 
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+              <p class="mt-1 text-[11px] text-slate-400">Email ini digunakan sebagai username saat masuk ke sistem.</p>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Peran Otoritas Akun</label>
+              <input type="text" value="${getRoleLabel(userProf.role)}" readonly 
+                class="w-full rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-xs text-slate-600 font-semibold cursor-not-allowed" />
+              <p class="mt-1 text-[11px] text-slate-400">Hak akses ditentukan oleh manajemen sistem madrasah.</p>
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex justify-end">
+              <button id="btn-save-canvas-profile" type="submit" class="px-5 py-2.5 bg-[#0b3b01] text-white rounded-xl font-bold hover:bg-[#06410a] transition shadow-md cursor-pointer">
+                💾 Simpan Perubahan Profil
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 2. KEAMANAN & GANTI KATA SANDI -->
+        <div class="rounded-3xl border border-white/70 bg-white/95 p-6 shadow-xl shadow-[#0b3b01]/5 space-y-5">
+          <div>
+            <h3 class="text-lg font-black text-[#0b3b01]">Keamanan & Ganti Kata Sandi</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Perbarui kata sandi Anda secara berkala untuk menjaga keamanan akun.</p>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs">
+            <p class="font-bold flex items-center gap-1.5">
+              <span>🔒</span> Panduan Kata Sandi Aman
+            </p>
+            <p class="mt-1 text-[11px] text-amber-800 leading-relaxed">
+              Gunakan minimal 6 karakter. Pastikan kata sandi baru mudah diingat oleh Anda namun sulit ditebak oleh orang lain.
+            </p>
+          </div>
+
+          <form id="form-canvas-password" class="space-y-4 text-xs">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Kata Sandi Baru</label>
+              <input id="canvas-my-new-pwd" type="password" placeholder="Masukkan kata sandi baru (min. 6 karakter)..." required minlength="6"
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Konfirmasi Kata Sandi Baru</label>
+              <input id="canvas-my-confirm-pwd" type="password" placeholder="Ketik ulang kata sandi baru..." required minlength="6"
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex justify-end">
+              <button id="btn-submit-canvas-pwd" type="submit" class="px-5 py-2.5 bg-emerald-800 text-white rounded-xl font-bold hover:bg-emerald-900 transition shadow-md cursor-pointer">
+                🔑 Perbarui Kata Sandi Saya
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Submit profil
+  const formProfile = container.querySelector("#form-canvas-profile");
+  formProfile?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const newName = container.querySelector("#canvas-my-name").value.trim();
+    const newEmail = container.querySelector("#canvas-my-email").value.trim();
+    const submitBtn = container.querySelector("#btn-save-canvas-profile");
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Menyimpan...";
+
+    try {
+      const { error: profError } = await supabase
+        .from("profiles")
+        .update({ full_name: newName })
+        .eq("id", userProf.id);
+
+      if (profError) throw profError;
+
+      if (newEmail !== userProf.email) {
+        try {
+          await supabase.auth.updateUser({ email: newEmail });
+          showToast("Tautan konfirmasi dikirim ke email baru!", "info");
+        } catch {}
+      }
+
+      userProf.full_name = newName;
+      userProf.email = newEmail;
+
+      // Update Header elements
+      const headingName = container.querySelector("#page-profile-heading-name");
+      if (headingName) headingName.textContent = newName;
+      const headingEmail = container.querySelector("#page-profile-heading-email");
+      if (headingEmail) headingEmail.textContent = newEmail;
+      const avatarEl = container.querySelector("#page-profile-avatar");
+      if (avatarEl) avatarEl.textContent = newName.charAt(0).toUpperCase();
+
+      // Update sidebar & topbar
+      const sidebarName = document.getElementById("sidebar-user-name");
+      if (sidebarName) sidebarName.textContent = newName;
+      const sidebarAvatar = document.getElementById("sidebar-user-avatar");
+      if (sidebarAvatar) sidebarAvatar.textContent = newName.charAt(0).toUpperCase();
+      const topbarName = document.getElementById("topbar-profile-name");
+      if (topbarName) topbarName.textContent = newName;
+
+      showToast("Profil berhasil diperbarui dan disimpan!", "success");
+    } catch (err) {
+      showToast(`Gagal memperbarui profil: ${err?.message || "Terjadi kendala"}`, "error");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "💾 Simpan Perubahan Profil";
+    }
+  });
+
+  // Submit sandi
+  const formPassword = container.querySelector("#form-canvas-password");
+  formPassword?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const newPassword = container.querySelector("#canvas-my-new-pwd").value;
+    const confirmPassword = container.querySelector("#canvas-my-confirm-pwd").value;
+    const submitBtn = container.querySelector("#btn-submit-canvas-pwd");
+
+    if (newPassword !== confirmPassword) {
+      showToast("Konfirmasi kata sandi tidak cocok!", "error");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Memperbarui sandi...";
+
+    try {
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) throw error;
+      showToast("Kata sandi akun Anda berhasil diperbarui!", "success");
+      container.querySelector("#canvas-my-new-pwd").value = "";
+      container.querySelector("#canvas-my-confirm-pwd").value = "";
+    } catch (err) {
+      showToast(`Gagal memperbarui sandi: ${err?.message || "Terjadi kesalahan"}`, "error");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "🔑 Perbarui Kata Sandi Saya";
+    }
+  });
+}
+
+window.renderProfileCanvas = renderProfileCanvas;
+
+// ============================================================================
 // FULL LEFT SIDEBAR NAVIGATION & MODULAR PAGE ROUTER
 // ============================================================================
 
@@ -483,7 +686,9 @@ function setupSidebarNavigation(profile, roleModule) {
       `;
 
       try {
-        if (typeof roleModule?.renderPage === "function") {
+        if (pageId === "profile") {
+          renderProfileCanvas(mainPageContainer, profile || activeProfileState);
+        } else if (typeof roleModule?.renderPage === "function") {
           await roleModule.renderPage(pageId, mainPageContainer, profile);
         } else if (typeof roleModule?.render === "function") {
           await roleModule.render(mainPageContainer, profile);
