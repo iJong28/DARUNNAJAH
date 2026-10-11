@@ -350,7 +350,7 @@ function setupSidebarNavigation(profile, roleModule) {
         <div class="sidebar-menu-group space-y-1">
           <button
             type="button"
-            class="btn-group-toggle w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-emerald-100 hover:bg-white/10 transition text-left cursor-pointer"
+            class="btn-group-toggle w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-emerald-100 hover:bg-white/10 transition text-left cursor-pointer"
             data-group="${g.id}"
           >
             <span class="flex items-center gap-2.5">
@@ -359,13 +359,13 @@ function setupSidebarNavigation(profile, roleModule) {
             </span>
             <span class="group-chevron text-[10px] text-emerald-300/70 transition-transform duration-200">▼</span>
           </button>
-          <div class="group-submenus pl-3 space-y-1 ${gIdx === 0 ? '' : 'hidden'}" id="submenus-${g.id}">
+          <div class="group-submenus pl-3 space-y-0.5 ${gIdx === 0 ? '' : 'hidden'}" id="submenus-${g.id}">
             ${g.submenus.map(sub => `
               <button
                 type="button"
                 data-page="${sub.id}"
                 data-group="${g.id}"
-                class="sidebar-nav-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11px] font-medium text-emerald-100/75 hover:bg-white/10 hover:text-white transition text-left cursor-pointer"
+                class="sidebar-nav-item w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-[11px] font-medium text-emerald-100/75 hover:bg-white/10 hover:text-white transition text-left cursor-pointer"
               >
                 <span class="text-xs">${sub.icon}</span>
                 <span class="truncate">${sub.label}</span>

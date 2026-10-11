@@ -1,5 +1,4 @@
-// js/roles/operator.js - Dashboard Operator & Superadmin Madrasah Darunnajah
-import { supabase } from "../supabase.js";
+import { supabase, supabaseUrl, supabaseAnonKey } from "../supabase.js";
 
 // ============================================================================
 // DATA BASELINE & STATE MANAGEMENT
@@ -768,26 +767,53 @@ function renderGuruDataPage(container) {
       bodyHtml: `
         <form id="form-modal-guru" class="space-y-3.5 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Nama Lengkap & Gelar</label>
+            <label class="block font-bold text-slate-700 mb-1">Nama Lengkap & Gelar <span class="text-red-500">*</span></label>
             <input id="g-name" type="text" placeholder="Contoh: Ustadz Ahmad Fauzan, S.Pd." required
               class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
           </div>
+
           <div>
-            <label class="block font-bold text-slate-700 mb-1">NIP / NIY</label>
-            <input id="g-nip" type="text" placeholder="Nomor Induk Pegawai" required
+            <label class="block font-bold text-slate-700 mb-1">
+              Email Aktif Guru <span class="text-emerald-700 font-semibold">(Digunakan untuk Login)</span> <span class="text-red-500">*</span>
+            </label>
+            <input id="g-email" type="email" placeholder="Contoh: ustadz.fauzan@gmail.com atau fauzan@darunnajah.sch.id" required
               class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+            <p class="mt-1 text-[10px] text-slate-500">Email ini akan digunakan oleh guru sebagai username login ke sistem.</p>
           </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Peran Akun</label>
-            <select id="g-role" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none">
-              <option value="guru">Dewan Guru (Pengajar)</option>
-              <option value="walikelas">Wali Kelas</option>
-              <option value="kepala_madrasah">Kepala Madrasah</option>
-            </select>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Kata Sandi Awal <span class="text-red-500">*</span></label>
+              <input id="g-password" type="text" value="Password123!" placeholder="Minimal 6 karakter" required minlength="6"
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs font-mono text-slate-800 focus:border-emerald-600 focus:outline-none" />
+              <p class="mt-0.5 text-[10px] text-slate-400">Dapat diganti oleh guru setelah login.</p>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">NIP / NIY <span class="text-red-500">*</span></label>
+              <input id="g-nip" type="text" placeholder="Nomor Induk Pegawai" required
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+            </div>
           </div>
-          <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
-            <button type="submit" class="px-5 py-2.5 bg-[#0b3b01] text-white rounded-xl font-bold hover:bg-[#06410a] transition cursor-pointer">
-              Simpan Akun Guru
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Nomor WhatsApp / HP</label>
+              <input id="g-phone" type="tel" placeholder="Contoh: 081234567890"
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Peran Akun <span class="text-red-500">*</span></label>
+              <select id="g-role" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none">
+                <option value="guru">Dewan Guru (Pengajar)</option>
+                <option value="walikelas">Wali Kelas</option>
+                <option value="kepala_madrasah">Kepala Madrasah</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+            <button id="btn-submit-guru-modal" type="submit" class="px-5 py-2.5 bg-[#0b3b01] text-white rounded-xl font-bold hover:bg-[#06410a] transition cursor-pointer shadow-md">
+              💾 Daftarkan & Simpan Akun Guru
             </button>
           </div>
         </form>
@@ -796,25 +822,80 @@ function renderGuruDataPage(container) {
         modalBody.querySelector("#form-modal-guru")?.addEventListener("submit", async (e) => {
           e.preventDefault();
           const name = modalBody.querySelector("#g-name").value.trim();
+          const email = modalBody.querySelector("#g-email").value.trim().toLowerCase();
+          const password = modalBody.querySelector("#g-password").value;
           const nip = modalBody.querySelector("#g-nip").value.trim();
+          const phone = modalBody.querySelector("#g-phone").value.trim() || "0812-3456-7890";
           const role = modalBody.querySelector("#g-role").value;
+          const submitBtn = modalBody.querySelector("#btn-submit-guru-modal");
+
+          if (!email || !password) {
+            window.dashboardModal.toast("Email dan kata sandi wajib diisi!", "error");
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Mendaftarkan akun...";
 
           try {
-            const fakeId = `usr-${Date.now()}`;
-            appState.teachers.push({
-              id: fakeId,
+            let newUserId = `usr-${Date.now()}`;
+
+            // Daftarkan langsung ke Supabase Auth melalui REST API endpoint
+            if (supabaseUrl && supabaseAnonKey) {
+              const signupRes = await fetch(`${supabaseUrl}/auth/v1/signup`, {
+                method: "POST",
+                headers: {
+                  "apikey": supabaseAnonKey,
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  email,
+                  password,
+                  data: {
+                    full_name: name,
+                    role: role
+                  }
+                })
+              });
+
+              const signupData = await signupRes.json();
+              if (!signupRes.ok) {
+                const errMsg = signupData?.msg || signupData?.message || signupData?.error_description || "Gagal mendaftarkan akun di server.";
+                if (errMsg.toLowerCase().includes("already registered")) {
+                  throw new Error(`Email "${email}" sudah pernah didaftarkan. Silakan gunakan email lain.`);
+                }
+                throw new Error(errMsg);
+              }
+
+              if (signupData?.user?.id) {
+                newUserId = signupData.user.id;
+              }
+            }
+
+            // Tambahkan ke state lokal agar tabel langsung terupdate
+            const newTeacherObj = {
+              id: newUserId,
               full_name: name,
-              email: `${name.toLowerCase().replace(/\s+/g, ".")}@darunnajah.sch.id`,
-              role,
-              nip,
-              phone: "0812-3456-7890",
+              email: email,
+              role: role,
+              nip: nip,
+              phone: phone,
+              gender: "Laki-laki",
               status: "Aktif"
-            });
-            window.dashboardModal.toast(`Guru "${name}" berhasil ditambahkan!`, "success");
+            };
+
+            appState.teachers.unshift(newTeacherObj);
+            appState.users.unshift(newTeacherObj);
+
+            window.dashboardModal.toast(`Akun guru "${name}" (${email}) berhasil didaftarkan! Kredensial siap digunakan untuk login.`, "success");
             close();
             refresh();
           } catch (err) {
-            window.dashboardModal.toast(`Gagal menambahkan: ${err.message}`, "error");
+            console.error("Gagal menambahkan guru:", err);
+            window.dashboardModal.toast(err?.message || "Gagal mendaftarkan akun guru.", "error");
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "💾 Daftarkan & Simpan Akun Guru";
           }
         });
       }
@@ -837,9 +918,22 @@ function renderGuruDataPage(container) {
                 class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">NIP / NIY</label>
-              <input id="eg-nip" type="text" value="${guru.nip}" required
-                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+              <label class="block font-bold text-slate-700 mb-1">Email Akun (Digunakan untuk Login)</label>
+              <input id="eg-email" type="email" value="${guru.email}" readonly
+                class="w-full rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-xs text-slate-600 font-mono cursor-not-allowed" />
+              <p class="mt-0.5 text-[10px] text-slate-400">Email otentikasi login guru.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">NIP / NIY</label>
+                <input id="eg-nip" type="text" value="${guru.nip}" required
+                  class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Nomor WhatsApp / HP</label>
+                <input id="eg-phone" type="tel" value="${guru.phone || ''}" placeholder="0812-xxxx-xxxx"
+                  class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none" />
+              </div>
             </div>
             <div>
               <label class="block font-bold text-slate-700 mb-1">Peran Otoritas</label>
@@ -850,7 +944,7 @@ function renderGuruDataPage(container) {
               </select>
             </div>
             <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
-              <button type="submit" class="px-5 py-2.5 bg-[#0b3b01] text-white rounded-xl font-bold hover:bg-[#06410a] transition cursor-pointer">
+              <button type="submit" class="px-5 py-2.5 bg-[#0b3b01] text-white rounded-xl font-bold hover:bg-[#06410a] transition cursor-pointer shadow-md">
                 Simpan Perubahan
               </button>
             </div>
@@ -861,6 +955,7 @@ function renderGuruDataPage(container) {
             e.preventDefault();
             guru.full_name = modalBody.querySelector("#eg-name").value.trim();
             guru.nip = modalBody.querySelector("#eg-nip").value.trim();
+            guru.phone = modalBody.querySelector("#eg-phone").value.trim() || guru.phone;
             guru.role = modalBody.querySelector("#eg-role").value;
 
             try {

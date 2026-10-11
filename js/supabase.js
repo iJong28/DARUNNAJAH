@@ -39,3 +39,5 @@ if (
 
 export const isSupabaseConfigured = supabaseClient !== null;
 export const supabase = supabaseClient;
+export { supabaseUrl, supabaseAnonKey };
+

@@ -24,8 +24,9 @@ Berisi ringkasan eksekutif seluruh data madrasah dan manajemen konfigurasi inti.
 ### Pilar 2: Guru (Manajemen Pendidik & Pengampu)
 Berisi pengelolaan data tenaga pendidik dan distribusi beban mengajar.
 * **2.a. Data Guru (`guru_data`)**
-  * Manajemen akun login pendidik dan biodata lengkap guru (NIP/NIY, Kontak, Email).
-  * Tambah akun guru baru, edit biodata guru, dan reset / kelola hak akses guru.
+  * Manajemen akun login pendidik dan biodata lengkap guru (NIP/NIY, Kontak WhatsApp, Email Login Aktif).
+  * Fitur tambah akun guru baru dengan kolom **Email Aktif** (terintegrasi langsung ke Supabase Auth untuk otentikasi login), penetapan Kata Sandi Awal, NIP/NIY, dan Peran (Guru/Wali Kelas/Kepala Madrasah).
+  * Edit biodata guru, pemantauan status akun aktif, dan hak akses.
 * **2.b. Mapel Ampuh (`guru_mapel`)**
   * Pengaturan beban mengajar: menentukan guru mana yang mengampu mata pelajaran apa di rombel/kelas mana.
   * Tambah penugasan guru pengampu dan hapus/ubah penugasan.
@@ -79,15 +80,9 @@ Pengawasan dan pencatatan pembayaran kewajiban santri.
 
 ---
 
-## 4. Daftar Akun Resmi Madrasah (Supabase Auth Aktif)
-Semua akun telah didaftarkan dan diverifikasi di Supabase Auth (`auth.users`) serta tersinkronisasi ke tabel `public.profiles`:
+## 4. Manajemen Akun & Autentikasi Mandiri (Manual)
+1. Bagian isi otomatis email dan kata sandi di halaman login (`login.html`) telah sepenuhnya dihilangkan agar proses masuk murni menggunakan input kredensial manual pengguna.
+2. Seluruh akun yang sebelumnya dibuat otomatis telah disiapkan prosedur pembersihannya via skrip SQL `supabase/hapus_semua_akun_otomatis.sql`.
+3. Pembuatan akun baru dilakukan secara mandiri dan manual oleh masing-masing pihak/operator melalui Supabase Auth atau modul registrasi resmi.
 
-| Peran (Role) | Nama Lengkap | Email Resmi | Sandi Default | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **Operator (Superadmin)** | Ustadz Aziz Wahab, S.Kom | `operator@darunnajah.sch.id` | `Password123!` | Aktif |
-| **Kepala Madrasah** | Drs. H. Ahmad Dahlan, M.Pd.I | `kamad@darunnajah.sch.id` | `Password123!` | Aktif |
-| **Dewan Guru** | Ustadz Rahmat Hidayat, S.Pd | `guru@darunnajah.sch.id` | `Password123!` | Aktif |
-| **Wali Kelas** | Ustadzah Nurul Fadhilah, S.Pd.I | `walikelas@darunnajah.sch.id` | `Password123!` | Aktif |
-| **Bendahara** | Ustadz Ridwan Malik, S.E | `bendahara@darunnajah.sch.id` | `Password123!` | Aktif |
-| **Santri / Siswa** | Muhammad Fatih Al-Ayyubi | `siswa@darunnajah.sch.id` | `Password123!` | Aktif |
 
